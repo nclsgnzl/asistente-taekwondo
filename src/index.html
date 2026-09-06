@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Asistente Taekwondo</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
+    h2 { color: #222; }
+    #chat { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    #respuesta { margin-top: 15px; white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 8px; min-height: 40px; }
+    input { width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px 20px; border: none; background: #2563eb; color: white; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <h2>🥋 Asistente de Taekwondo (RAG)</h2>
+  <div id="chat">
+    <input id="pregunta" type="text" placeholder="Pregunta sobre poomsae, reglas, combate...">
+    <button onclick="preguntar()">Preguntar</button>
+    <div id="respuesta">Esperando pregunta...</div>
+  </div>
+
+  <script>
+    const API_URL = "http://127.0.0.1:8000";
+
+    async function preguntar() {
+      const pregunta = document.getElementById("pregunta").value;
+      if (!pregunta.trim()) return;
+
+      document.getElementById("respuesta").innerText = "Pensando...";
+      try {
+        /*
+        const res = await fetch(`${API_URL}/preguntar`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pregunta })
+        });
+        */
+
+        const res = await fetch(`${API_URL}/preguntar`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "X-API-Key": "niconico.dev.ia-93"
+            },
+            body: JSON.stringify({ pregunta })
+        });
+
+        if (!res.ok) {
+            document.getElementById("respuesta").innerText = `Error ${res.status}: no se pudo procesar la pregunta.`;
+            return;
+        }
+
+        const data = await res.json();
+        document.getElementById("respuesta").innerText = data.respuesta;
+      } catch (error) {
+        document.getElementById("respuesta").innerText = "Error al conectar con el asistente.";
+      }
+    }
+
+    document.getElementById("pregunta").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") preguntar();
+    });
+  </script>
+</body>
+</html>
