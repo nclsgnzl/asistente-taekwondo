@@ -4,11 +4,6 @@ Sistema de preguntas y respuestas sobre reglamento, poomsae y técnicas de comba
 de Taekwondo, usando arquitectura RAG (Retrieval-Augmented Generation) con la API 
 de Claude (Anthropic).
 
-## 🎯 Demo en vivo
-
-- Frontend: [pendiente - link de Vercel]
-- API backend: [pendiente - link de Render]
-
 ## 🏗️ Arquitectura
 
 PDF (manual técnico)
@@ -34,7 +29,6 @@ en el documento fuente.
 - **Vector store:** ChromaDB
 - **Frontend:** HTML/JS vanilla
 - **Seguridad:** autenticación por API key + rate limiting (slowapi)
-- **Deploy:** Render (backend) + Vercel (frontend)
 
 ## 🔒 Decisiones de diseño
 
@@ -80,9 +74,8 @@ pip install -r requirements.txt
 
 Crea un archivo `.env` en la raíz con:
 
-ANTHROPIC_API_KEY=tu_key_de_anthropic
-APP_API_KEY=una_clave_propia_que_definas
-
+ANTHROPIC_API_KEY = tu_key_de_anthropic
+APP_API_KEY = una_clave_propia_que_definas
 
 Indexa el documento (solo la primera vez, o si cambias el PDF):
 
@@ -98,13 +91,6 @@ uvicorn api:app
 ```
 
 Abre `index.html` en el navegador para interactuar con el asistente.
-
-## 🔮 Próximos pasos
-
-- Migrar la orquestación a LangChain/LangGraph
-- Agregar suite de evals (golden dataset) y observabilidad
-- Explorar reranking para mejorar la precisión del retrieval
-- Contenerizar con Docker
 
 ## 📌 Autor
 
